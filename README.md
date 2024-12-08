@@ -10,12 +10,13 @@
 ---
 ## <center> 项目运行
 1.前置条件
-- [python](https://www.python.org/downloads/windows/)（是电脑要安装python，vscode也要安装python插件）
+- [python](https://www.python.org/downloads/windows/)（电脑要安装python，vscode也要安装python插件。安装完请重启设备）
 
 2.安装依赖
 - 终端运行`python -m venv env`
 - `env\Scripts\activate`
 - `pip install -r requirements.txt`
+- `python manage.py migrate`
 
 3.启动项目
 - 终端运行`python manage.py runserver`
