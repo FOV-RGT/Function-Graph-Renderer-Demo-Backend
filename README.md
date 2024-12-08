@@ -19,7 +19,7 @@ env\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
 ```
-- 若提示找不到`requirements.txt`，请检查控制台当前目录是否有效。
+- 若提示找不到`requirements.txt`，请检查控制台当前指向目录是否有效。
 
 3.启动项目
 - 
