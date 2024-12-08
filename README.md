@@ -13,12 +13,18 @@
 - [python](https://www.python.org/downloads/windows/)（电脑要安装python，vscode也要安装python插件。安装完请重启设备）
 
 2.安装依赖
-- 终端运行`python -m venv env`
-- `env\Scripts\activate`
-- `pip install -r requirements.txt`
-- `python manage.py migrate`
+```python
+python -m venv env 
+env\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+```
+- 若提示找不到`requirements.txt`，请检查控制台当前指向目录是否有效。
 
 3.启动项目
-- 终端运行`python manage.py runserver`
+- 
+```python
+python manage.py runserver
+```
 
 <p style="text-align:center;"> <img src="./IMG_4007.PNG" width="300" height="450" title> </p>
