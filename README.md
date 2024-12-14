@@ -2,6 +2,7 @@
 <p style="text-align:center;"> <img src="./486.1-done.png" width="100" height="100"> </p>
 
 ---
+## <p style="text-align:center;"> 注：前端v0.9.0及以上版本，不再依赖后端进行图形解析 </p>
 ## <p style="text-align:center;"> 前言 </p>
 虽说后端就当看个乐子，但不得不说用python进行算式符号的解析非常省事，后续可能会保留算式解析部分，用**Brython**来实现python代码在前端的直接运行，或者寻找方便解析算式的js库。
 
