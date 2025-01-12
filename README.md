@@ -33,7 +33,7 @@ console.log(crypto.randomBytes(32).toString('hex'));
 ## 配置数据库
 
 项目使用 Docker 容器运行 MySQL 数据库。安装好 Docker 后启动MySQL
-将config目录下`config.example.json`文件拷贝为`config.json`文件，并修改配置。
+将config目录下`config.example`文件拷贝为`config.json`文件，并修改配置。
 
 ```json
 {
