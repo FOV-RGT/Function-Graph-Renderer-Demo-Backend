@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "",
+    "password": "",
+    "database": "hanshu_api_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "",
+    "password": "",
+    "database": "hanshu_api_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+08:00"
+  },
+  "production": {
+    "username": "",
+    "password": "",
+    "database": "hanshu_api_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+08:00"
+  }
+}
