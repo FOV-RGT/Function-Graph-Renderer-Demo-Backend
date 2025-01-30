@@ -1,130 +1,19 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Ignore Node.js files.
+/node_modules
 
-# C extensions
-*.so
+# Ignore environment files.
+/.env
 
-# Distribution / packaging
-.Python
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-bin/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# Ignore editor files.
+/.idea
+/.vscode
 
-# PyInstaller
-#  通常会在“release”文件夹中生成捆绑文件
-release/
-*.manifest
-*.spec
+# Ignore system files.
+.DS_Store
+Thumbs.db
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Ignore Docker data.
+/data
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-
-# Pipenv
-Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-.spacy
-*.snap
-*.sublime-project
-*.sublime-workspace
-
-# mkdocs documentation
-site/
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# IDEs and editors
-.idea/
-.vscode/
-*.swp
-*.swo
+# Ignore config
+/config/config.json
