@@ -42,25 +42,32 @@ console.log(crypto.randomBytes(32).toString('hex'));
     "password": "您的数据库密码"
   }
 }
-=======
-# <p style="text-align:center;"> FunctionPlotter-demo </p>
-<p style="text-align:center;"> <img src="./486.1-done.png" width="100" height="100"> </p>
+```
 
----
-## <p style="text-align:center;"> 注：前端v0.9.0及以上版本，不再依赖后端进行图形解析 </p>
-## <p style="text-align:center;"> 前言 </p>
-虽说后端就当看个乐子，但不得不说用python进行算式符号的解析非常省事，后续可能会保留算式解析部分，用**Brython**来实现python代码在前端的直接运行，或者寻找方便解析算式的js库。
+## 安装与运行
 
-服务器接收函数时可能会返回500状态码，这是因为本地环境变量配置不到位，可在f12调试页面打开前端发送的get请求网址查看错误情况。
+```shell
+# 安装项目依赖包
+npm i
 
----
-## <p style="text-align:center;"> 项目运行 </p>
-1.前置条件
-- [python](https://www.python.org/downloads/windows/)（电脑要安装python，vscode也要安装python插件。安装完请重启设备）
+# 创建数据库。如创建失败，可以手动建库。
+npx sequelize-cli db:create --charset utf8mb4 --collate utf8mb4_general_ci
 
-2.安装依赖
-```python
-python -m venv env 
-env\Scripts\activate
-pip install -r requirements.txt
-python manage.py migrate
+# 运行迁移，自动建表。
+npx sequelize-cli db:migrate
+
+# 运行种子，填充初始数据。
+npx sequelize-cli db:seed:all
+
+# 启动服务
+npm start
+```
+
+访问地址：[http://localhost:5005](http://localhost:5005)，详情请看接口文档。
+
+## 初始管理员账号
+
+```txt
+账号：admin
+密码: 123123
+```
