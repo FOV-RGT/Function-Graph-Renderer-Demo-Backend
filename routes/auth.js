@@ -14,7 +14,7 @@ router.post('/sign_up', async function (req, res) {
             email: req.body.email,
             username: req.body.username,
             password: req.body.password,
-            nikename: '11',
+            nickname: req.body.nickname,
             role: 0
         }
 

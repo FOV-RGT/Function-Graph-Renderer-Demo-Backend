@@ -66,7 +66,7 @@ router.put('/account', async function (req, res) {
     await user.reload();
   
     const token = makeToken(user);
-    localStorage.setItem('token', token);
+  
     success(res, '更新账户信息成功。', { user,token });
   } catch (error) {
     failure(res, error);

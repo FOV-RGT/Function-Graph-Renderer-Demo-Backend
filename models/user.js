@@ -59,15 +59,15 @@ module.exports = (sequelize, DataTypes) => {
         this.setDataValue('password', bcrypt.hashSync(value, 10));
       }
     },
-    // nickname: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate: {
-    //     notNull: { msg: '昵称必须填写。' },
-    //     notEmpty: { msg: '昵称不能为空。' },
-    //     len: { args: [2, 45], msg: '昵称长度必须是2 ~ 45之间。' }
-    //   }
-    // },
+    nickname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: '昵称必须填写。' },
+        notEmpty: { msg: '昵称不能为空。' },
+        len: { args: [2, 45], msg: '昵称长度必须是2 ~ 45之间。' }
+      }
+    },
     role: {
       type: DataTypes.TINYINT,
       allowNull: false,
