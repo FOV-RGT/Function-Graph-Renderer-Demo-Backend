@@ -14,7 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   mathData.init({
-    userId: DataTypes.INTEGER.UNSIGNED,
+    id: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    uploadId: DataTypes.INTEGER,
     dimension:{
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,7 +33,38 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    functionValue: DataTypes.STRING
+    fn: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: '函数必须填写。' },
+        notEmpty: { msg: '函数不能为空。' }
+      }
+    },
+    color: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: '颜色必须填写。' },
+        notEmpty: { msg: '颜色不能为空。' }
+      }
+    },
+    nSamples: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      validate: {
+        notNull: { msg: '样本数必须填写。' },
+        notEmpty: { msg: '样本数不能为空。' }
+      }
+    },
+    visible: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notNull: { msg: '是否可见必须填写。' },
+        notEmpty: { msg: '是否可见不能为空。' }
+      }
+    }
   }, {
     sequelize,
     modelName: 'mathData',

@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Op } = require("sequelize");
 
-
+// 用户注册
+// POST /auth/sign_up
 router.post('/sign_up', async function (req, res) {
     try {
         const body = {
@@ -26,10 +27,10 @@ router.post('/sign_up', async function (req, res) {
     }
 });
 
-/**
- * 用户登录
- * POST /auth/sign_in
- */
+
+ //用户登录
+ //POST /auth/sign_in
+ 
 router.post('/signIn', async (req, res) => {
     try {
         const { login, password } = req.body;
@@ -56,7 +57,7 @@ router.post('/signIn', async (req, res) => {
         if (!user) {
             throw new NotFoundError('用户不存在，无法登录。');
         }
-        console.log(user);
+        
         // 验证密码
         const isPasswordValid = bcrypt.compareSync(password, user.password);
         if (!isPasswordValid) {

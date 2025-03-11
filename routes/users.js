@@ -5,6 +5,7 @@ const { success, failure, makeToken } = require('../utils/responses');
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const bcrypt = require('bcryptjs');
 
+
 /**
  * 公共方法：查询当前用户
  */
@@ -26,7 +27,21 @@ async function getUser(req, showPassword = false) {
   return user;
 }
 
-//修改账户信息
+// 获取用户信息
+router.get('/me', async function (req, res) {
+  try {
+    const user = await getUser(req);
+    const imformation = {
+      email: user.email,
+      username: user.username,
+      nickname: user.nickname,
+    };
+    success(res, '获取用户信息成功。', { imformation });
+  } catch (error) {
+    failure(res, error);
+  }
+});
+
 /**
  * 更新账户信息
  * PUT /users/account
