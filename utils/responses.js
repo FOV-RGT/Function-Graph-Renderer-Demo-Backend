@@ -82,9 +82,6 @@ function makeToken(user) {
 
     return jwt.sign({
         userId: user.id,
-        email: user.email,
-        username: user.username,
-        role: user.role
     }, process.env.JWT_SECRET, { expiresIn: '1d' });
 }
 

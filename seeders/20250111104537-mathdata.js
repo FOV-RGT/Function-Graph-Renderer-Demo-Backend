@@ -5,7 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('mathData', [
         { 
-          userId: 1,
+          uploadId: 1,
           dimension: 2,
           fn: '2sin(2x)', 
           color: 'rgb(24, 126, 170)',
@@ -15,7 +15,7 @@ module.exports = {
           updatedAt: new Date()
         }, 
         { 
-          userId: 2,
+          uploadId: 2,
           dimension: 2,
           fn: '3cos(log(x^10))',
           color: 'rgba(218, 194, 73, 0.5)',
@@ -25,7 +25,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          userId: 3,
+          u: 3,
           dimension: 3,
           fn: '8log(cos(sin(sqrt(x^3))))',
           color: 'rgb(126, 40, 128)',

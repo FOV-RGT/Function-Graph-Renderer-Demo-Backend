@@ -53,25 +53,33 @@ router.put('/account', async function (req, res) {
       username: req.body.username,
       currentPassword: req.body.currentPassword,
       password: req.body.password,
-      passwordConfirmation: req.body.passwordConfirmation
+      passwordConfirmation: req.body.passwordConfirmation,
+      nickname: req.body.nickname
     };
 
-    if (!body.currentPassword) {
-      throw new BadRequestError('当前密码必须填写。');
-    }
+   
+    if(body.password){
+      
 
-    if (body.password !== body.passwordConfirmation) {
-      throw new BadRequestError('两次输入的密码不一致。');
-    }
+      if (!body.currentPassword) {
+        throw new BadRequestError('当前密码必须填写。');
+      }
+  
+      if (body.password !== body.passwordConfirmation) {
+        throw new BadRequestError('两次输入的密码不一致。');
+      }
+      
+      const user = await getUser(req, true);
 
-    // 加上 true 参数，可以查询到加密后的密码
-    const user = await getUser(req, true);
-
-    // 验证当前密码是否正确
-    const isPasswordValid = bcrypt.compareSync(body.currentPassword, user.password);
-    if (!isPasswordValid) {
-      throw new BadRequestError('当前密码不正确。');
+      //验证密码是否正确
+      const isPasswordValid = bcrypt.compareSync(body.currentPassword, user.password);
+      
+      if (!isPasswordValid) {
+        throw new BadRequestError('当前密码不正确。');
+      }
     }
+    
+    const user = await getUser(req);
 
     await user.update(body);
 
@@ -81,8 +89,14 @@ router.put('/account', async function (req, res) {
     await user.reload();
   
     const token = makeToken(user);
+
+    const userinf={
+      email: user.email,
+      username: user.username,
+      nickname: user.nickname
+    }
   
-    success(res, '更新账户信息成功。', { user,token });
+    success(res, '更新账户信息成功。', { userinf,token });
   } catch (error) {
     failure(res, error);
   }
