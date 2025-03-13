@@ -37,7 +37,7 @@ console.log(crypto.randomBytes(32).toString('hex'));
 
 ```json
 {
-    "development": {
+  "development": {
     "username": "您的数据库用户名",
     "password": "您的数据库密码"
   }

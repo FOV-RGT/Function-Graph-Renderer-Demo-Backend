@@ -117,7 +117,8 @@ router.post('/', async function (req, res) {
             fn: item.fn,
             color: item.color,
             nSamples: item.nSamples,
-            visible: item.visible
+            visible: item.visible,
+            dimension: item.dimension
         }));
         
         await mathData.bulkCreate(entries);

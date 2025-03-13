@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     uploadId: DataTypes.INTEGER,
     dimension:{
-      type: DataTypes.STRING,
+      type: DataTypes.TINYINT,
       allowNull: false,
       validate: {
         notNull: { msg: '维度必须填写。' },

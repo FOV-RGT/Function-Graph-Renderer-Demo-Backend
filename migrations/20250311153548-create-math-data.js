@@ -20,7 +20,7 @@ module.exports = {
               onDelete: 'CASCADE'
             },
             dimension: {
-              type: DataTypes.TINYINT.UNSIGNED
+              type: DataTypes.TINYINT
             },
             fn: {
               type: DataTypes.STRING
