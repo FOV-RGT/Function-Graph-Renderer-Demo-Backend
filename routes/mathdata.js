@@ -8,9 +8,15 @@ const { where,Op } = require('sequelize');
 const { raw } = require('mysql2');
 
 
+
 //查询2D历史记录
 router.get('/2D', async function (req, res, next) {
     const userId = req.userId;
+    const query = req.query;
+    const currentPage = Math.abs(Number(query.currentPage)) || 1;
+    const pageSize = Math.abs(Number(query.pageSize)) || 10;
+    const offset = (currentPage - 1) * pageSize;
+   
     try {
         const upId=await upload.findAll({
             raw: true,
@@ -23,27 +29,35 @@ router.get('/2D', async function (req, res, next) {
 
         
         const idArray = upId.map(item => item.id);
-        console.log(idArray);
-        const mathdatas = await mathData.findAll(
-            {
-                attributes: { exclude: ['userId', 'dimension', 'updatedAt'] },
-                order: [['id', 'DESC']],
-                limit: 5,
-                where: {
-                    uploadId:{
-                        [Op.in]:idArray
-                    },
-                    dimension: 2
-                }
-            }
-        );
 
+        const condition = {
+            attributes: { exclude: ['userId', 'dimension', 'updatedAt'] },
+            order: [['id', 'DESC']],
+            limit: pageSize,
+            offset: offset,
+            where: {
+                uploadId:{
+                    [Op.in]:idArray
+                },
+                dimension: 2
+            }
+        };
+
+        const {count,rows} = await mathData.findAndCountAll(condition);
+        const totalPages = Math.ceil(count / pageSize);
+        const mathdatas = rows;
         
         if (mathdatas.length === 0) {
             success(res, '没有查询到历史记录。');
             return;
         }else{
             success(res, '查询历史记录成功。', {
+                pagination: {
+                    currentPage,
+                    pageSize,
+                    totalRecords: count,
+                    totalPages,
+                },
                 mathdatas
             });
         }
@@ -57,6 +71,11 @@ router.get('/2D', async function (req, res, next) {
 router.get('/3D', async function (req, res, next) {
 
     const userId = req.userId;
+    const query = req.query;
+    const currentPage = Math.abs(Number(query.currentPage)) || 1;
+    const pageSize = Math.abs(Number(query.pageSize)) || 10;
+    const offset = (currentPage - 1) * pageSize;
+    
     try {
         const upId=await upload.findAll({
             raw: true,
@@ -67,27 +86,36 @@ router.get('/3D', async function (req, res, next) {
             order: [['id', 'DESC']],
         });
 
-        
         const idArray = upId.map(item => item.id);
-        console.log(idArray);
-        const mathdatas = await mathData.findAll(
-            {
-                attributes: { exclude: ['userId', 'dimension', 'updatedAt'] },
-                order: [['id', 'DESC']],
-                limit: 5,
-                where: {
-                    uploadId:{
-                        [Op.in]:idArray
-                    },
-                    dimension: 3
-                }
+        
+        const condition = {
+            attributes: { exclude: ['userId', 'dimension', 'updatedAt'] },
+            order: [['id', 'DESC']],
+            limit: pageSize,
+            offset: offset,
+            where: {
+                uploadId:{
+                    [Op.in]:idArray
+                },
+                dimension: 3
             }
-        );
+        };
+        
+        const {count,rows} = await mathData.findAndCountAll(condition);
+        const totalPages = Math.ceil(count / pageSize);
+        const mathdatas = rows;
+
         if (mathdatas.length === 0) {
             success(res, '没有查询到历史记录。');
             return;
         }else{
             success(res, '查询历史记录成功。', {
+                pagination: {
+                    currentPage,
+                    pageSize,
+                    totalRecords: count,
+                    totalPages,
+                },
                 mathdatas
             });
         }
