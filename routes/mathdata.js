@@ -31,7 +31,7 @@ router.get('/2D', async function (req, res, next) {
         const idArray = upId.map(item => item.id);
 
         const condition = {
-            attributes: { exclude: ['userId', 'dimension', 'updatedAt'] },
+            attributes: { exclude: ['userId','updatedAt'] },
             order: [['id', 'DESC']],
             limit: pageSize,
             offset: offset,
@@ -89,7 +89,7 @@ router.get('/3D', async function (req, res, next) {
         const idArray = upId.map(item => item.id);
         
         const condition = {
-            attributes: { exclude: ['userId', 'dimension', 'updatedAt'] },
+            attributes: { exclude: ['userId', 'updatedAt'] },
             order: [['id', 'DESC']],
             limit: pageSize,
             offset: offset,
