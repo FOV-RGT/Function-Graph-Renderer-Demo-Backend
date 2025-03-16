@@ -124,17 +124,43 @@ router.get('/3D', async function (req, res, next) {
     }
 });
 
+
+//查询上传批次
+router.get('/upload', async function (req, res, next) {
+    const userId = req.userId;
+    try {
+        const uploads = await upload.findAll({
+            raw: true,
+            attributes: ['id', 'createdAt'],
+            where: {
+                userId: userId
+            },
+            order: [['id', 'DESC']],
+        });
+        if (uploads.length === 0) {
+            success(res, '没有查询到上传批次。');
+            return;
+        }else{
+            success(res, '查询上传批次成功。', { uploads });
+        }
+    } catch (error) {
+        failure(res, error);
+    }
+});
+
 //添加历史记录
 router.post('/', async function (req, res) {
     const data = req.body;
 
-    // 检查数据格式 
-    if(!Array.isArray(data)||data.length===0){
-        throw new BadRequestError('数据格式不正确。'); 
-    }
+     
 
     
     try {
+        
+        // 检查数据格式
+        if(!Array.isArray(data)||data.length===0){
+            throw new BadRequestError('数据格式不正确。'); 
+        }
 
         const newUpload = await upload.create({ userId: req.userId });
         const uploadId = newUpload.id;
