@@ -179,4 +179,90 @@ router.post('/', async function (req, res) {
         failure(res, error);
     }
 });
+
+//删除历史记录
+router.delete('/', async function (req, res) {
+    const data = req.body;
+    try {
+        if (!Array.isArray(data) || data.length === 0) {
+            throw new BadRequestError('数据格式不正确。');
+        }
+
+        const ids = data.map(item => item.id);
+        await mathData.destroy({
+            where: {
+                id: {
+                    [Op.in]: ids
+                }
+            }
+        });
+
+        success(res, '删除历史记录成功。');
+    } catch (error) {
+        failure(res, error);
+    }
+});
+
+
+// 修改或新增多个历史记录
+router.put('/', async function (req, res) {
+    const data = req.body;
+    try {
+        if (!Array.isArray(data) || data.length === 0) {
+            throw new BadRequestError('数据格式不正确。');
+        }
+
+        const entries = data.map(item => ({
+            id: item.id,
+            uploadId: item.uploadId,
+            dimension: item.dimension,
+            fn: item.fn,
+            color: item.color,
+            nSamples: item.nSamples,
+            visible: item.visible,
+        }));
+
+        // 检查所有的 uploadId 是否存在
+        const uploadIds = [...new Set(entries.map(item => item.uploadId))]; // 获取所有唯一的 uploadId
+        const existingUploads = await upload.findAll({
+            where: {
+                id: {
+                    [Op.in]: uploadIds
+                }
+            },
+            attributes: ['id'],
+            raw: true
+        });
+
+        const existingUploadIds = existingUploads.map(upload => upload.id);
+        const invalidUploadIds = uploadIds.filter(id => !existingUploadIds.includes(id));
+
+        if (invalidUploadIds.length > 0) {
+            throw new BadRequestError(`以下 uploadId 不存在：${invalidUploadIds.join(', ')}`);
+        }
+        
+        await Promise.all(entries.map(async item => {
+            if (item.id) {
+                // 如果存在 id，则更新记录
+                const [updatedRows] = await mathData.update(item, {
+                    where: {
+                        id: item.id
+                    }
+                });
+
+                // 如果没有更新任何记录，说明该 id 不存在，执行插入操作
+                if (updatedRows === 0) {
+                    await mathData.create(item);
+                }
+            } else {
+                // 如果没有 id，则直接插入新记录
+                await mathData.create(item);
+            }
+        }));
+
+        success(res, '修改或新增历史记录成功。');
+    } catch (error) {
+        failure(res, error);
+    }
+});
 module.exports = router;
