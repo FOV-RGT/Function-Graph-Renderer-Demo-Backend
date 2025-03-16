@@ -152,9 +152,6 @@ router.get('/upload', async function (req, res, next) {
 //添加历史记录
 router.post('/', async function (req, res) {
     const data = req.body;
-
-     
-
     
     try {
         
