@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { mathData, upload } = require('../models');
+const { mathData, upload,change } = require('../models');
 const { success, failure } = require('../utils/responses');
 const user = require('../models/user');
 const jwt = require('jsonwebtoken');
@@ -203,9 +203,8 @@ router.delete('/', async function (req, res) {
     }
 });
 
-
-// 修改或新增多个历史记录
-router.put('/', async function (req, res) {
+//新增变动数据
+router.post('/change', async function (req, res) {
     const data = req.body;
     try {
         if (!Array.isArray(data) || data.length === 0) {
@@ -213,56 +212,64 @@ router.put('/', async function (req, res) {
         }
 
         const entries = data.map(item => ({
-            id: item.id,
-            uploadId: item.uploadId,
+            userId: req.userId,
             dimension: item.dimension,
             fn: item.fn,
             color: item.color,
             nSamples: item.nSamples,
-            visible: item.visible,
+            visible: item.visible
         }));
 
-        // 检查所有的 uploadId 是否存在
-        const uploadIds = [...new Set(entries.map(item => item.uploadId))]; // 获取所有唯一的 uploadId
-        const existingUploads = await upload.findAll({
-            where: {
-                id: {
-                    [Op.in]: uploadIds
-                }
-            },
-            attributes: ['id'],
-            raw: true
-        });
+        await change.bulkCreate(entries);
 
-        const existingUploadIds = existingUploads.map(upload => upload.id);
-        const invalidUploadIds = uploadIds.filter(id => !existingUploadIds.includes(id));
-
-        if (invalidUploadIds.length > 0) {
-            throw new BadRequestError(`以下 uploadId 不存在：${invalidUploadIds.join(', ')}`);
-        }
-        
-        await Promise.all(entries.map(async item => {
-            if (item.id) {
-                // 如果存在 id，则更新记录
-                const [updatedRows] = await mathData.update(item, {
-                    where: {
-                        id: item.id
-                    }
-                });
-
-                // 如果没有更新任何记录，说明该 id 不存在，执行插入操作
-                if (updatedRows === 0) {
-                    await mathData.create(item);
-                }
-            } else {
-                // 如果没有 id，则直接插入新记录
-                await mathData.create(item);
-            }
-        }));
-
-        success(res, '修改或新增历史记录成功。');
+        success(res, '添加变动数据成功。',{} ,201);
     } catch (error) {
         failure(res, error);
     }
 });
+
+//查询变动数据
+router.get('/change', async function (req, res, next) {
+    const userId = req.userId;
+    const query = req.query;
+    const currentPage = Math.abs(Number(query.currentPage)) || 1;
+    const pageSize = Math.abs(Number(query.pageSize)) || 4;
+    const offset = (currentPage - 1) * pageSize;
+
+    try {
+        
+        const condition = {
+            attributes: { exclude: ['userId','updatedAt'] },
+            order: [['id', 'DESC']],
+            limit: pageSize,
+            offset: offset,
+            where: {
+                userId: userId
+            }
+        };
+
+        const { count, rows } = await change.findAndCountAll(condition);
+        const totalPages = Math.ceil(count / pageSize);
+        const mathdatas = rows;
+
+        if (mathdatas.length === 0) {
+            success(res, '没有查询到历史记录。');
+            return;
+        } else {
+            success(res, '查询历史记录成功。', {
+                pagination: {
+                    currentPage,
+                    pageSize,
+                    totalRecords: count,
+                    totalPages,
+                },
+                mathdatas
+            });
+        }
+    } catch (error) {
+        failure(res, error);
+    }
+});
+
+
 module.exports = router;
