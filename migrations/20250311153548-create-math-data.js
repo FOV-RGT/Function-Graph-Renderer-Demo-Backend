@@ -34,6 +34,12 @@ module.exports = {
             visible: {
               type: DataTypes.BOOLEAN
             },
+            graphType: {
+              type: DataTypes.STRING
+            },
+            closed: {
+              type: DataTypes.BOOLEAN
+            },
             createdAt: {
               allowNull: false,
               type: DataTypes.DATE

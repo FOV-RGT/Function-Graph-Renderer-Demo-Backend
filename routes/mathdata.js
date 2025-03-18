@@ -169,7 +169,9 @@ router.post('/', async function (req, res) {
             color: item.color,
             nSamples: item.nSamples,
             visible: item.visible,
-            dimension: item.dimension
+            dimension: item.dimension,
+            graphType: item.graphType,
+            closed: item.closed
         }));
 
         await mathData.bulkCreate(entries);
@@ -217,12 +219,37 @@ router.post('/change', async function (req, res) {
             fn: item.fn,
             color: item.color,
             nSamples: item.nSamples,
-            visible: item.visible
+            visible: item.visible,
+            graphType: item.graphType,
+            closed: item.closed
         }));
 
         await change.bulkCreate(entries);
 
         success(res, '添加变动数据成功。',{} ,201);
+    } catch (error) {
+        failure(res, error);
+    }
+});
+
+//删除变动数据
+router.delete('/change', async function (req, res) {
+    const data = req.body;
+    try {
+        if (!Array.isArray(data) || data.length === 0) {
+            throw new BadRequestError('数据格式不正确。');
+        }
+
+        const ids = data.map(item => item.id);
+        await change.destroy({
+            where: {
+                id: {
+                    [Op.in]: ids
+                }
+            }
+        });
+
+        success(res, '删除变动数据成功。');
     } catch (error) {
         failure(res, error);
     }

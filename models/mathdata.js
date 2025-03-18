@@ -64,7 +64,23 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: '是否可见必须填写。' },
         notEmpty: { msg: '是否可见不能为空。' }
       }
-    }
+    },
+    graphType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg: '图形类型必须填写。' },
+        notEmpty: { msg: '图形类型不能为空。' }
+      }
+    },
+    closed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notNull: { msg: 'closed必须填写。' },
+        notEmpty: { msg: 'closed不能为空。' }
+      }
+    },
   }, {
     sequelize,
     modelName: 'mathData',
