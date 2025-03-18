@@ -170,8 +170,8 @@ router.post('/', async function (req, res) {
             nSamples: item.nSamples,
             visible: item.visible,
             dimension: item.dimension,
-            graphType: item.graphType,
-            closed: item.closed
+            graphType: item.graphType || 'interval',
+            closed: item.closed || false
         }));
 
         await mathData.bulkCreate(entries);
@@ -220,8 +220,8 @@ router.post('/change', async function (req, res) {
             color: item.color,
             nSamples: item.nSamples,
             visible: item.visible,
-            graphType: item.graphType,
-            closed: item.closed
+            graphType: item.graphType || 'interval',
+            closed: item.closed || false
         }));
 
         await change.bulkCreate(entries);
