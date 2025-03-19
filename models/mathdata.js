@@ -81,6 +81,10 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'closed不能为空。' }
       }
     },
+    range: {
+      type: DataTypes.STRING
+    },
+    
   }, {
     sequelize,
     modelName: 'mathData',

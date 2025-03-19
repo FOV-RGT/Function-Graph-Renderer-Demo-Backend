@@ -27,6 +27,10 @@ module.exports = {
         type: DataTypes.TINYINT.UNSIGNED,
         defaultValue: 0
       },
+      avatarUrl:{
+        type: DataTypes.STRING,
+        defaultValue: process.env.AVATARURL
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE

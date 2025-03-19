@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models');
+const { User,userconfig } = require('../models');
 const { success, failure, makeToken } = require('../utils/responses');
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const bcrypt = require('bcryptjs');
+
 
 
 /**
@@ -102,5 +103,34 @@ router.put('/account', async function (req, res) {
   }
 });
 
+//用户配置查询
+router.get('/userconfig', async function (req, res) {
+  try {
+    const condition = {
+      attributes:{exclude:['createdAt','updatedAt']},
+    };
+    const id = req.userId;
+    const config = await userconfig.findByPk(id,condition);
+    success(res, '获取用户配置成功。', { config });
+  } catch (error) {
+    failure(res, error);
+  }
+});
+
+//用户配置更新
+router.put('/userconfig', async function (req, res) {
+  try {
+    const id = req.userId;
+    const body = req.body;
+    const config = await userconfig.findByPk(id);
+    if (!config) {
+      throw new NotFoundError('用户配置未找到。');
+    }
+    await config.update(body);
+    success(res, '更新用户配置成功。');
+  } catch (error) {
+    failure(res, error);
+  }
+});
 
 module.exports = router;

@@ -131,6 +131,17 @@ async function getUser(req) {
     return user;
 }
 
+//删除用户
+router.delete('/:id', async function (req, res) {
+    try {
+        const user = await getUser(req);
+        await user.destroy();
+        success(res, '删除用户成功。');
+    } catch (error) {
+        failure(res, error);
+    }
+});
+
 /**
  * 公共方法：白名单过滤
  * @param req

@@ -33,5 +33,5 @@ app.use('/admin/users',adminAuth, adminUsersRouter);
 app.use('/admin/auth', adminAuthRouter);
 app.use('/auth', authRouter);
 app.use('/mathdata',userAuth,mathdataRouter);
-app.use('/avatar_direct',userAuth,avatarRouter);
+app.use('/avatar_url',userAuth,avatarRouter);
 module.exports = app;

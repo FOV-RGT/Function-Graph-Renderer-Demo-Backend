@@ -12,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasOne(models.userconfig, {
+        foreignKey: 'userId',
+        as: 'config', // 别名
+        onDelete: 'CASCADE'
+      });
     }
   }
   User.init({
@@ -74,11 +78,35 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isIn: { args: [[0, 100]], msg: '用户组的值必须是，普通用户：0 管理员：100。' }
       }
+    },
+    avatarUrl: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: process.env.AVATARURL,
+      validate: {
+        isUrl: { msg: '头像地址格式不正确。' }
+      }
     }
   
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      // 创建用户后，自动创建用户配置
+      afterCreate: async (user, options) => {
+        const { userconfig } = sequelize.models;
+        await userconfig.create({
+          userId: user.id,
+          chartType: 'linear',
+          closed: false,
+          range: null,
+          dash: false,
+          grid: true,
+          zoomFactor: 0.5,
+          moveFactor: 0.2
+        }, { transaction: options.transaction });
+      }
+    }
   });
   return User;
 };

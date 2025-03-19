@@ -40,6 +40,9 @@ module.exports = {
             closed: {
               type: DataTypes.BOOLEAN
             },
+            range: {
+              type: DataTypes.STRING
+            },
             createdAt: {
               allowNull: false,
               type: DataTypes.DATE

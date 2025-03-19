@@ -4,6 +4,7 @@ const { success, failure } = require('../utils/responses');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
 const { client, config } = require('../utils/aliyun');
+const { User } = require('../models');
 
 
 
@@ -51,4 +52,28 @@ router.get('/', async function (req, res, next) {
     }
   });
 
+  //头像上传成功后，将头像地址保存到数据库
+  router.put('/', async function (req, res, next) {
+    try {
+        
+        const  newAvatarUrl  = req.body.avatarUrl; // 从请求体中获取新的头像地址
+        const userId = req.userId; // 从请求中获取用户 ID
+        const userRecord = await User.findByPk(userId); // 从数据库中查询用户记录
+        // 如果用户不存在，返回错误信息
+        if (!userRecord) {
+            throw new Error('用户不存在。');
+        }
+        if (userRecord.avatarUrl) {
+            // 如果用户已有头像，更新头像地址
+            await User.update({ avatarUrl: newAvatarUrl }, { where: { id: userId } });
+            success(res, '头像更新成功。');
+        } else {
+            // 如果用户没有头像，添加头像地址
+            await User.update({ avatarUrl: newAvatarUrl }, { where: { id: userId } });
+            success(res, '头像添加成功。');
+        }
+    } catch (error) {
+        failure(res, error);
+    }
+});
   module.exports = router;
