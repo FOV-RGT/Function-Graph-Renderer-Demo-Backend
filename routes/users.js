@@ -36,6 +36,7 @@ router.get('/me', async function (req, res) {
       email: user.email,
       username: user.username,
       nickname: user.nickname,
+      avatarUrl: user.avatarUrl,
     };
     success(res, '获取用户信息成功。', { imformation });
   } catch (error) {
@@ -94,7 +95,8 @@ router.put('/account', async function (req, res) {
     const userinf={
       email: user.email,
       username: user.username,
-      nickname: user.nickname
+      nickname: user.nickname,
+
     }
   
     success(res, '更新账户信息成功。', { userinf,token });
