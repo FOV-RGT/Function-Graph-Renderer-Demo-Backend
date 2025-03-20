@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models');
-const { success, failure, makeToken } = require('../utils/responses');
+const {sequelize, User } = require('../models');
+const { success, failure, makeToken,createUserWithConfig } = require('../utils/responses');
 const { NotFoundError, BadRequestError, UnauthorizedError } = require("../utils/errors");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -19,7 +19,7 @@ router.post('/sign_up', async function (req, res) {
             role: 0
         }
 
-        const user = await User.create(body);
+        const user = await createUserWithConfig(body);
         delete user.dataValues.password;
         success(res, '创建用户成功。', { user }, 201);
     } catch (error) {

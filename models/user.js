@@ -95,16 +95,23 @@ module.exports = (sequelize, DataTypes) => {
       // 创建用户后，自动创建用户配置
       afterCreate: async (user, options) => {
         const { userconfig } = sequelize.models;
-        await userconfig.create({
-          userId: user.id,
-          chartType: 'linear',
-          closed: false,
-          range: null,
-          dash: false,
-          grid: true,
-          zoomFactor: 0.5,
-          moveFactor: 0.2
-        }, { transaction: options.transaction });
+    
+        try {
+          // 创建用户配置
+          await userconfig.create({
+            userId: user.id,
+            chartType: 'linear',
+            closed: false,
+            range: null,
+            dash: false,
+            grid: true,
+            zoomFactor: 0.5,
+            moveFactor: 0.2
+          }, { transaction: options.transaction }); // 使用与用户创建相同的事务
+        } catch (error) {
+          // 如果创建用户配置失败，抛出错误，事务会回滚
+          throw new Error(`创建用户配置失败: ${error.message}`);
+        }
       }
     }
   });

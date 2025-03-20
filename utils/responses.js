@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+const { sequelize,User } = require('../models');
 /**
  * 请求成功
  * @param res
@@ -85,9 +85,27 @@ function makeToken(user) {
     }, process.env.JWT_SECRET, { expiresIn: '1d' });
 }
 
+async function createUserWithConfig(userData) {
+    const transaction = await sequelize.transaction(); // 开启事务
+  
+    try {
+      // 创建用户
+      const user = await User.create(userData, { transaction });
+  
+      // 提交事务
+      await transaction.commit();
+  
+      return user;
+    } catch (error) {
+      // 如果发生错误，回滚事务
+      await transaction.rollback();
+      throw new Error(`用户创建失败: ${error.message}`);
+    }
+  }
 
 module.exports = {
     success,
     failure,
     makeToken,
+    createUserWithConfig
 }
