@@ -48,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
         return rawValue ? rawValue.split(',').map(Number) : null; // 转换为数组
       },
       set(value) {
-        if (Array.isArray(value)) {
-          this.setDataValue('range', value.join(',')); // 将数组转换为字符串存储
+        if (Array.isArray(value)||value===null) {
+          this.setDataValue('range', value ? value.join(',') : null);
         } else {
           throw new Error('range 字段必须是数组类型');
         }

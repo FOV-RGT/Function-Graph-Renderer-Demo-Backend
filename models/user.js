@@ -81,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     avatarUrl: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       defaultValue: null,
       validate: {
         isUrl: { msg: '头像地址格式不正确。' }
