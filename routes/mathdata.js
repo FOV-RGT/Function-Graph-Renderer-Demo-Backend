@@ -47,7 +47,7 @@ router.get('/2D', async function (req, res, next) {
         const { count, rows } = await mathData.findAndCountAll(condition);
         const totalPages = Math.ceil(count / pageSize);
         const mathdatas = rows;
-
+        
         if (mathdatas.length === 0) {
             success(res, '没有查询到历史记录。');
             return;
@@ -279,7 +279,7 @@ router.get('/change', async function (req, res, next) {
 
         const { count, rows } = await change.findAndCountAll(condition);
         const totalPages = Math.ceil(count / pageSize);
-        const mathdatas = rows;
+        const mathdatas = rows;   
 
         if (mathdatas.length === 0) {
             success(res, '没有查询到历史记录。');

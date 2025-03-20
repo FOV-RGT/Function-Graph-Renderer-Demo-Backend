@@ -113,6 +113,7 @@ router.get('/userconfig', async function (req, res) {
     };
     const id = req.userId;
     const config = await userconfig.findByPk(id,condition);
+    
     success(res, '获取用户配置成功。', { config });
   } catch (error) {
     failure(res, error);

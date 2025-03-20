@@ -82,9 +82,21 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     range: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING, // 数据库中存储为字符串
+      allowNull: true,
+      defaultValue: null,
+      get() {
+        const rawValue = this.getDataValue('range'); 
+        return rawValue ? rawValue.split(',').map(Number) : null; // 转换为数组
+      },
+      set(value) {
+        if (Array.isArray(value)) {
+          this.setDataValue('range', value.join(',')); // 将数组转换为字符串存储
+        } else {
+          throw new Error('range 字段必须是数组类型');
+        }
+      }
     },
-    
   }, {
     sequelize,
     modelName: 'mathData',
