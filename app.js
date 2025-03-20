@@ -2,18 +2,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors=require('cors');
+require('dotenv').config();
+var app = express();
+
 const adminAuth = require('./middlewares/admin-auth');
 const userAuth = require('./middlewares/user-auth');
 const mathdataRouter = require('./routes/mathdata');
-const cors=require('cors');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const avatarRouter = require('./routes/avatar');
 
-
-
-require('dotenv').config();
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
 
 const adminUsersRouter = require('./routes/admin/users');
 const adminAuthRouter = require('./routes/admin/auth');
@@ -34,4 +33,5 @@ app.use('/admin/users',adminAuth, adminUsersRouter);
 app.use('/admin/auth', adminAuthRouter);
 app.use('/auth', authRouter);
 app.use('/mathdata',userAuth,mathdataRouter);
+app.use('/avatar_url',userAuth,avatarRouter);
 module.exports = app;

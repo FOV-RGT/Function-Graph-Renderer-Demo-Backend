@@ -16,6 +16,7 @@ router.get('/', async function (req, res) {
         const currentPage = Math.abs(Number(query.currentPage)) || 1;
         const pageSize = Math.abs(Number(query.pageSize)) || 10;
         const offset = (currentPage - 1) * pageSize;
+        
 
         const condition = {
             order: [['id', 'DESC']],
@@ -56,13 +57,15 @@ router.get('/', async function (req, res) {
         }
 
         const { count, rows } = await User.findAndCountAll(condition);
+        const totalPages = Math.ceil(count / pageSize);
         success(res, '查询用户列表成功。', {
-            users: rows,
             pagination: {
-                total: count,
                 currentPage,
                 pageSize,
-            }
+                totalRecords: count,
+                totalPages,
+            },
+            users: rows
         });
     } catch (error) {
         failure(res, error);
@@ -127,6 +130,17 @@ async function getUser(req) {
 
     return user;
 }
+
+//删除用户
+router.delete('/:id', async function (req, res) {
+    try {
+        const user = await getUser(req);
+        await user.destroy();
+        success(res, '删除用户成功。');
+    } catch (error) {
+        failure(res, error);
+    }
+});
 
 /**
  * 公共方法：白名单过滤

@@ -1,35 +1,41 @@
 'use strict';
 const { Sequelize, DataTypes } = require('sequelize');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('changes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER.UNSIGNED
       },
-      username: {
+      userId: {
+        type: DataTypes.INTEGER.UNSIGNED,
+      },
+      dimension: {
+        type: DataTypes.TINYINT
+      },
+      fn: {
         type: DataTypes.STRING
       },
-      password: {
+      color: {
         type: DataTypes.STRING
       },
-      email: {
+      nSamples: {
+        type: DataTypes.INTEGER.UNSIGNED
+      },
+      visible: {
+        type: DataTypes.BOOLEAN
+      },
+      graphType: {
         type: DataTypes.STRING
       },
-      nickname: {
+      closed: {
+        type: DataTypes.BOOLEAN
+      },
+      range: {
         type: DataTypes.STRING
-      },
-      role: {
-        type: DataTypes.TINYINT.UNSIGNED,
-        defaultValue: 0
-      },
-      avatarUrl:{
-        type: DataTypes.STRING,
-        defaultValue: null
       },
       createdAt: {
         allowNull: false,
@@ -40,22 +46,8 @@ module.exports = {
         type: DataTypes.DATE
       }
     });
-    await queryInterface.addIndex(
-      'Users', {
-      fields: ['email'],
-      unique: true
-    });
-    await queryInterface.addIndex(
-      'Users', {
-      fields: ['username'],
-      unique: true
-    });
-    await queryInterface.addIndex(
-      'Users', {
-      fields: ['role']
-    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('changes');
   }
 };

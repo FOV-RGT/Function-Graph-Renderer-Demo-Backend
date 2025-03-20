@@ -1,24 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models');
-const { success, failure, makeToken } = require('../utils/responses');
+const {sequelize, User } = require('../models');
+const { success, failure, makeToken,createUserWithConfig } = require('../utils/responses');
 const { NotFoundError, BadRequestError, UnauthorizedError } = require("../utils/errors");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Op } = require("sequelize");
 
-
+// 用户注册
+// POST /auth/sign_up
 router.post('/sign_up', async function (req, res) {
     try {
         const body = {
             email: req.body.email,
             username: req.body.username,
             password: req.body.password,
-            nikename: '11',
+            nickname: req.body.nickname,
             role: 0
         }
 
-        const user = await User.create(body);
+        const user = await createUserWithConfig(body);
         delete user.dataValues.password;
         success(res, '创建用户成功。', { user }, 201);
     } catch (error) {
@@ -26,10 +27,10 @@ router.post('/sign_up', async function (req, res) {
     }
 });
 
-/**
- * 用户登录
- * POST /auth/sign_in
- */
+
+ //用户登录
+ //POST /auth/sign_in
+ 
 router.post('/signIn', async (req, res) => {
     try {
         const { login, password } = req.body;
@@ -56,7 +57,7 @@ router.post('/signIn', async (req, res) => {
         if (!user) {
             throw new NotFoundError('用户不存在，无法登录。');
         }
-        console.log(user);
+        
         // 验证密码
         const isPasswordValid = bcrypt.compareSync(password, user.password);
         if (!isPasswordValid) {
