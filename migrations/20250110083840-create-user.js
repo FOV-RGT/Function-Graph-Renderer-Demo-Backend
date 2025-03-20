@@ -29,7 +29,7 @@ module.exports = {
       },
       avatarUrl:{
         type: DataTypes.STRING,
-        defaultValue: process.env.AVATARURL
+        defaultValue: null
       },
       createdAt: {
         allowNull: false,

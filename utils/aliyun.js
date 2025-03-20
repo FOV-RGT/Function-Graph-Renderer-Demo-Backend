@@ -35,8 +35,7 @@ const upload = multer({
   }
 });
 
-//  单文件上传，指定表单字段名为 file
-const singleFileUpload = upload.single('file');
+
 
 module.exports = {
   config,
