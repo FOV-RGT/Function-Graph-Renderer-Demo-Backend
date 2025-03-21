@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         if (Array.isArray(value)||value===null) {
           this.setDataValue('range', value ? value.join(',') : null);
         } else {
-          throw new Error('range 字段必须是数组类型');
+          throw new Error('range 字段必须是数组类型或null');
         }
       }
     },
