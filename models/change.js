@@ -91,9 +91,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       set(value) {
         if (Array.isArray(value)) {
-          this.setDataValue('range', value.join(',')); // 将数组转换为字符串存储
+          this.setDataValue('range', value ? value.join(',') : null); // 将数组转换为字符串存储
         } else {
-          throw new Error('range 字段必须是数组类型');
+          throw new Error('range 字段必须是数组类型或null');
         }
       }
     },
