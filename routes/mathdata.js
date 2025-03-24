@@ -28,6 +28,11 @@ router.get('/2D', async function (req, res, next) {
             order: [['id', 'DESC']],
         });
 
+        if (upId.length === 0) {
+            success(res, '没有查询到历史记录。');
+            return;
+        }
+
 
         const idArray = upId.map(item => item.id);
 
