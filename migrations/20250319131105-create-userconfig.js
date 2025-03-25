@@ -53,6 +53,11 @@ module.exports = {
         allowNull: false,
         defaultValue: 0.2
       },
+      globalSamples: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 500
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

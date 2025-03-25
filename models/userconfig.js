@@ -74,7 +74,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.2
-    }
+    },
+    globalSamples: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 500
+    },
     
   }, {
     sequelize,
