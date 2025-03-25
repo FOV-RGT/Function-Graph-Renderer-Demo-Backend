@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { mathData, upload,change } = require('../models');
+const { mathData, upload, change } = require('../models');
 const { success, failure } = require('../utils/responses');
 const user = require('../models/user');
 const jwt = require('jsonwebtoken');
@@ -32,7 +32,7 @@ router.get('/2D', async function (req, res, next) {
         const idArray = upId.map(item => item.id);
 
         const condition = {
-            attributes: { exclude: ['userId','updatedAt'] },
+            attributes: { exclude: ['userId', 'updatedAt'] },
             order: [['id', 'DESC']],
             limit: pageSize,
             offset: offset,
@@ -47,7 +47,7 @@ router.get('/2D', async function (req, res, next) {
         const { count, rows } = await mathData.findAndCountAll(condition);
         const totalPages = Math.ceil(count / pageSize);
         const mathdatas = rows;
-        
+
         if (mathdatas.length === 0) {
             success(res, '没有查询到历史记录。');
             return;
@@ -141,7 +141,7 @@ router.get('/upload', async function (req, res, next) {
         if (uploads.length === 0) {
             success(res, '没有查询到上传批次。');
             return;
-        }else{
+        } else {
             success(res, '查询上传批次成功。', { uploads });
         }
     } catch (error) {
@@ -152,12 +152,12 @@ router.get('/upload', async function (req, res, next) {
 //添加历史记录
 router.post('/', async function (req, res) {
     const data = req.body;
-    
+
     try {
-        
+
         // 检查数据格式
-        if(!Array.isArray(data)||data.length===0){
-            throw new BadRequestError('数据格式不正确。'); 
+        if (!Array.isArray(data) || data.length === 0) {
+            throw new BadRequestError('数据格式不正确。');
         }
 
         const newUpload = await upload.create({ userId: req.userId });
@@ -228,7 +228,7 @@ router.post('/change', async function (req, res) {
 
         await change.bulkCreate(entries);
 
-        success(res, '添加变动数据成功。',{} ,201);
+        success(res, '添加变动数据成功。', {}, 201);
     } catch (error) {
         failure(res, error);
     }
@@ -264,22 +264,32 @@ router.get('/change', async function (req, res, next) {
     const currentPage = Math.abs(Number(query.currentPage)) || 1;
     const pageSize = Math.abs(Number(query.pageSize)) || 4;
     const offset = (currentPage - 1) * pageSize;
+    const dimension = query.dimension;
+
 
     try {
         
+        if (dimension && ![2, 3].includes(Number(dimension))) {
+            throw new BadRequestError('维度参数不正确。');
+        }
+
+        const whereCondition = { userId: userId };
+        if (dimension) {
+            whereCondition.dimension = dimension; // 如果提供了维度参数，添加到查询条件
+        }
+
         const condition = {
-            attributes: { exclude: ['userId','updatedAt'] },
+            attributes: { exclude: ['userId', 'updatedAt'] },
             order: [['id', 'DESC']],
             limit: pageSize,
             offset: offset,
-            where: {
-                userId: userId
-            }
+            where: whereCondition,
         };
+
 
         const { count, rows } = await change.findAndCountAll(condition);
         const totalPages = Math.ceil(count / pageSize);
-        const mathdatas = rows;   
+        const mathdatas = rows;
 
         if (mathdatas.length === 0) {
             success(res, '没有查询到历史记录。');
@@ -295,9 +305,10 @@ router.get('/change', async function (req, res, next) {
                 mathdatas
             });
         }
+    
     } catch (error) {
-        failure(res, error);
-    }
+    failure(res, error);
+}
 });
 
 
