@@ -56,7 +56,7 @@ module.exports = {
       globalSamples: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 500
+        defaultValue: 2025
       },
       createdAt: {
         allowNull: false,

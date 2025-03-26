@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
     globalSamples: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 500
+      defaultValue: 2025
     },
     
   }, {
