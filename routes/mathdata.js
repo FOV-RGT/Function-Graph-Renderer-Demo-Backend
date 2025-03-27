@@ -31,6 +31,19 @@ router.get('/2D', async function (req, res, next) {
 
         const idArray = upId.map(item => item.id);
 
+        if (idArray.length === 0) {
+            success(res, '没有查询到历史记录。', {
+                pagination: {
+                    currentPage,
+                    pageSize,
+                    totalRecords: 0,
+                    totalPages: 0,
+                },
+                mathdatas: []
+            });
+            return;
+        }
+
         const condition = {
             attributes: { exclude: ['userId','updatedAt'] },
             order: [['id', 'DESC']],
@@ -38,7 +51,7 @@ router.get('/2D', async function (req, res, next) {
             offset: offset,
             where: {
                 uploadId: {
-                    [Op.in]: idArray
+                    [Op.in]: idArray.length > 0 ? idArray : [0]
                 },
                 dimension: 2
             }
@@ -89,6 +102,19 @@ router.get('/3D', async function (req, res, next) {
 
         const idArray = upId.map(item => item.id);
 
+        if (idArray.length === 0) {
+            success(res, '没有查询到历史记录。', {
+                pagination: {
+                    currentPage,
+                    pageSize,
+                    totalRecords: 0,
+                    totalPages: 0,
+                },
+                mathdatas: []
+            });
+            return;
+        }
+
         const condition = {
             attributes: { exclude: ['userId', 'updatedAt'] },
             order: [['id', 'DESC']],
@@ -96,7 +122,7 @@ router.get('/3D', async function (req, res, next) {
             offset: offset,
             where: {
                 uploadId: {
-                    [Op.in]: idArray
+                    [Op.in]: idArray.length > 0 ? idArray : [0]
                 },
                 dimension: 3
             }
