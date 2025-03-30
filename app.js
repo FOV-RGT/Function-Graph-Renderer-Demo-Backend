@@ -25,7 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //CORS跨域配置
-app.use(cors());
+app.use(cors({
+    origin: 'https://hanshu.kz2006.top' // 指定允许的来源
+}));
 //路由配置
 app.use('/',indexRouter);
 app.use('/users', userAuth, usersRouter);
