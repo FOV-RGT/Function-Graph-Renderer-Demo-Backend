@@ -59,7 +59,7 @@ module.exports = {
         defaultValue: 2025
       },
       lockCameraFocus: {
-        type: DataTypes.BOOLEAN,
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
       },
