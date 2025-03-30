@@ -80,6 +80,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 2025
     },
+    lockCameraFocus: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
     
   }, {
     sequelize,
