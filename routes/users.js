@@ -4,6 +4,7 @@ const { User,userconfig } = require('../models');
 const { success, failure, makeToken } = require('../utils/responses');
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const bcrypt = require('bcryptjs');
+const { singularize } = require('sequelize/lib/utils');
 
 
 
@@ -98,6 +99,7 @@ router.put('/account', async function (req, res) {
       email: user.email,
       username: user.username,
       nickname: user.nickname,
+      singnature: user.signature,
 
     }
   
