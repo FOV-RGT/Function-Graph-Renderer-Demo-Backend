@@ -31,6 +31,10 @@ module.exports = {
         type: DataTypes.STRING,
         defaultValue: null
       },
+      signature: {
+        type: DataTypes.STRING,
+        defaultValue: null 
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE

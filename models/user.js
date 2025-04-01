@@ -86,6 +86,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isUrl: { msg: '头像地址格式不正确。' }
       }
+    },
+    signature: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null, 
     }
   
   }, {

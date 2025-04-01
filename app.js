@@ -27,18 +27,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.options('*', (req, res) => {
-    const origin = req.headers.origin;
-    
-    if (allowedOrigins.includes(origin)) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-      res.setHeader('Access-Control-Allow-Credentials', 'true'); // 如果需要 Cookie
-    }
-    
-    res.sendStatus(204); // 返回 204 No Content
-  });
+const corsOptions = {
+  origin: 'https://hanshu.kz2006.top', // 允许的跨域请求来源
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // 允许的 HTTP 方法
+  allowedHeaders: ['Content-Type', 'Authorization','token'], // 允许的请求头
+  credentials: true, // 允许发送 Cookie
+};
+
+app.use(cors(corsOptions));
 //路由配置
 app.use('/',indexRouter);
 app.use('/users', userAuth, usersRouter);
