@@ -53,6 +53,16 @@ module.exports = {
         allowNull: false,
         defaultValue: 0.2
       },
+      globalSamples: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 2025
+      },
+      lockCameraFocus: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

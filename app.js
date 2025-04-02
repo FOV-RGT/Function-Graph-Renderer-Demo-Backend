@@ -12,7 +12,8 @@ const mathdataRouter = require('./routes/mathdata');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const avatarRouter = require('./routes/avatar');
-
+//CORS跨域配置
+const allowedOrigins = ['https://hanshu.kz2006.top']; // 允许的域名
 
 const adminUsersRouter = require('./routes/admin/users');
 const adminAuthRouter = require('./routes/admin/auth');
@@ -24,8 +25,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//CORS跨域配置
-app.use(cors());
+
+
+const corsOptions = {
+  origin: 'https://hanshu.kz2006.top', // 允许的跨域请求来源
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // 允许的 HTTP 方法
+  allowedHeaders: ['Content-Type', 'Authorization','token'], // 允许的请求头
+  credentials: true, // 允许发送 Cookie
+};
+
+app.use(cors(corsOptions));
 //路由配置
 app.use('/',indexRouter);
 app.use('/users', userAuth, usersRouter);

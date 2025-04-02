@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         if (Array.isArray(value)||value===null) {
           this.setDataValue('range', value ? value.join(',') : null);
         } else {
-          throw new Error('range 字段必须是数组类型');
+          throw new Error('range 字段必须是数组类型或null');
         }
       }
     },
@@ -74,6 +74,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.2
+    },
+    globalSamples: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 2025
+    },
+    lockCameraFocus: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
     
   }, {

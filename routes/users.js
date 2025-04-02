@@ -4,6 +4,7 @@ const { User,userconfig } = require('../models');
 const { success, failure, makeToken } = require('../utils/responses');
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const bcrypt = require('bcryptjs');
+const { singularize } = require('sequelize/lib/utils');
 
 
 
@@ -37,6 +38,7 @@ router.get('/me', async function (req, res) {
       username: user.username,
       nickname: user.nickname,
       avatarUrl: user.avatarUrl,
+      signature: user.signature,
     };
     success(res, '获取用户信息成功。', { imformation });
   } catch (error) {
@@ -56,7 +58,8 @@ router.put('/account', async function (req, res) {
       currentPassword: req.body.currentPassword,
       password: req.body.password,
       passwordConfirmation: req.body.passwordConfirmation,
-      nickname: req.body.nickname
+      nickname: req.body.nickname,
+      signature: req.body.signature,
     };
 
    
@@ -96,6 +99,7 @@ router.put('/account', async function (req, res) {
       email: user.email,
       username: user.username,
       nickname: user.nickname,
+      singnature: user.signature,
 
     }
   

@@ -5,12 +5,29 @@ const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
 const { client, config } = require('../utils/aliyun');
 const { User } = require('../models');
+const user = require('../models/user');
 
 
 
 
 router.get('/', async function (req, res, next) {
     try{
+        const userId = req.userId;
+        const userRecord = await User.findByPk(userId);
+        if (userRecord && userRecord.avatarUrl) {
+          const oldAvatarKey = userRecord.avatarUrl.split('/').pop();
+          if (oldAvatarKey) {
+              try {
+                  // 删除阿里云OSS上的旧头像
+                  await client.delete(`uploads/${oldAvatarKey}`);
+                  console.log('旧头像已删除');
+              } catch (deleteError) {
+                  console.error('删除旧头像失败:', deleteError);
+                  // 删除失败不影响后续操作，继续执行
+              }
+          }
+      }
+
     // 有效期
     const date = moment().add(5, 'seconds');
     // 自定义上传目录及文件名
