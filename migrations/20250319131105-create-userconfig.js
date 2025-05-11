@@ -63,6 +63,11 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       },
+      syncFnData: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

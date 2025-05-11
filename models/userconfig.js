@@ -84,6 +84,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    },
+    syncFnData: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
     }
     
   }, {

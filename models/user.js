@@ -113,7 +113,8 @@ module.exports = (sequelize, DataTypes) => {
             zoomFactor: 0.5,
             moveFactor: 0.2,
             globalSamples: 2025,
-            lockCameraFocus: false
+            lockCameraFocus: false,
+            syncFnData: true
           }, { transaction: options.transaction }); // 使用与用户创建相同的事务
         } catch (error) {
           // 如果创建用户配置失败，抛出错误，事务会回滚
